@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oscar x Benxit — Generador de Sensibilidad</title>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#030207;--panel:#09070e;--purple:#a83cff;--violet:#6d1cff;--text:#f7f4ff;--muted:#aaa3b6;--line:#7725ff}
+body{margin:0;background:radial-gradient(circle at 50% 0,#22083c 0,#08040d 24%,#030207 65%);color:var(--text);font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;background:linear-gradient(115deg,transparent 0 20%,#8f20ff 21%,transparent 22% 78%,#8f20ff 79%,transparent 80%);filter:blur(25px)}
+.wrap{max-width:1050px;margin:auto;padding:0 18px 110px}
+header{height:118px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #522073;background:#05030a}
+.logo{text-align:center;font-weight:1000;font-size:36px;font-style:italic;letter-spacing:2px;text-shadow:0 0 18px #8d27ff}.logo span{color:#a83cff}.logo small{display:block;font-size:11px;letter-spacing:6px;color:#9d94aa;font-style:normal;margin-top:6px}
+.hero{text-align:center;padding:62px 0 35px}
+.hero h1{font-size:clamp(38px,7vw,76px);line-height:.9;margin:0;font-weight:1000;letter-spacing:-3px;text-shadow:0 0 15px #fff3}
+.hero h1 em{display:block;color:#9c28ff;font-style:italic;text-shadow:0 0 25px #8e1fff}
+.hero p{color:#c0b9c9;font-size:18px;line-height:1.55;margin:25px auto 38px}
+.platforms{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.platform{height:145px;background:linear-gradient(#08070d,#050408);border:2px solid #9c39ff;border-radius:20px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 0 12px #6b17ff55,inset 0 0 20px #6518ff11;transition:.2s}
+.platform:hover,.platform.active{transform:translateY(-2px);box-shadow:0 0 28px #8c20ff99,inset 0 0 28px #7e1dff22}
+.platform.active{border-color:#d18aff}
+.osicon{height:54px;width:54px;margin-bottom:10px}.android{fill:#3ee47b;color:#3ee47b}.apple{fill:#fff;color:#fff}
+.platform b{font-size:19px;letter-spacing:3px}
+.search{display:flex;align-items:center;margin-top:18px;height:74px;border:2px solid #8931dd;border-radius:18px;background:#09070e;box-shadow:0 0 18px #6b18ff22}
+.search span{font-size:27px;color:#bd65ff;padding:0 18px}.search input{flex:1;background:none;border:0;outline:0;color:#fff;font-size:18px}.search input::placeholder{color:#756c80}
+.generate{width:100%;height:76px;margin-top:16px;border:0;border-radius:4px;background:linear-gradient(90deg,#7b20ff,#c03cff,#7920ff);color:#fff;font-weight:1000;font-size:19px;letter-spacing:2px;cursor:pointer;box-shadow:0 0 30px #8525ff77}
+.generate:hover{filter:brightness(1.15)}
+.count{text-align:center;color:#a89faf;margin:22px 0 60px;font-weight:700}.count strong{color:#c35cff}
+.section-label{color:#ad5bff;letter-spacing:5px;font-weight:900;font-size:13px}.section h2{font-size:37px;margin:12px 0}.section h2 em{color:#a63aff}.section>p{color:#aaa2b4;font-size:17px;line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:25px}
+.card{background:linear-gradient(145deg,#0b0811,#040307);border:1px solid #872cff;border-radius:16px;padding:22px 14px;text-align:center;box-shadow:0 0 14px #7b20ff2b,inset 0 0 18px #6d19ff0d}
+.card .ico{font-size:36px;color:#b448ff;text-shadow:0 0 15px #9a2dff}.card h3{font-size:15px;margin:12px 0 7px}.card p{color:#aaa2b3;font-size:12px;line-height:1.45;min-height:35px}
+.view{width:100%;height:38px;border:1px solid #9e35ff;border-radius:20px;background:#12091b;color:#e4c7ff;font-weight:900;cursor:pointer}.view:hover{background:#7220b4}
+.results{display:none;margin-top:28px;padding:20px;border:1px solid #9a35ff;border-radius:18px;background:#08060d;box-shadow:0 0 30px #7d21ff33}.results.show{display:block}.results h2{margin-top:0}
+.resultgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.profile{border:1px solid #552075;border-radius:14px;padding:15px;background:#0d0912}.profile strong{font-size:16px}.tag{float:right;color:#c968ff;font-size:10px}.vals{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}.val{background:#06050a;border:1px solid #33203e;border-radius:9px;padding:8px}.val small{display:block;color:#81778b;font-size:10px}.val b{font-size:18px}
+.banner{margin-top:38px;border:1px solid #852bff;border-radius:16px;padding:28px;text-align:center;background:radial-gradient(circle,#35105c,#07040b 65%);box-shadow:0 0 30px #7720ff33}.banner h2{font-size:42px;font-style:italic;margin:0;color:#b13cff;text-shadow:0 0 18px #9227ff}.banner p{color:#ddd}
+footer{position:fixed;z-index:10;bottom:0;left:50%;transform:translateX(-50%);width:min(900px,96%);height:72px;border:1px solid #7130a0;border-bottom:0;border-radius:22px 22px 0 0;background:#08070d;display:flex;align-items:center;justify-content:center;box-shadow:0 -5px 25px #7c22ff22}
+.home{color:#b342ff;text-align:center;font-weight:900;letter-spacing:1px}.home div{font-size:27px;text-shadow:0 0 15px #a52cff}
+@media(max-width:760px){.cards{grid-template-columns:repeat(2,1fr)}.resultgrid{grid-template-columns:1fr}.hero{padding-top:45px}.logo{font-size:27px}}
+@media(max-width:480px){.platform{height:125px}.cards{grid-template-columns:1fr 1fr}.card{padding:16px 9px}.card h3{font-size:13px}.hero h1{font-size:43px}.hero p{font-size:16px}}
+</style>
+</head>
+<body>
+<header><div class="logo">OSCAR <span>× BENXIT</span><small>GENERADOR DE SENSIBILIDAD</small></div></header>
+
+<div class="wrap">
+<section class="hero">
+<h1>TU SENSIBILIDAD IDEAL<em>PARA FREE FIRE</em></h1>
+<p>Escribe tu celular y te damos una configuración personalizada.<br>Gratis, sin registro.</p>
+
+<div class="platforms">
+<button class="platform active" data-os="android" onclick="selectOS(this)">
+<svg class="osicon android" viewBox="0 0 64 64"><path d="M20 27h24c5 0 9 4 9 9v14H11V36c0-5 4-9 9-9Z"/><path d="M20 25 16 18M44 25l4-7M24 18l-3-5M40 18l3-5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="23" cy="36" r="2.5" fill="#050308"/><circle cx="41" cy="36" r="2.5" fill="#050308"/></svg><b>ANDROID</b>
+</button>
+<button class="platform" data-os="iphone" onclick="selectOS(this)">
+<svg class="osicon apple" viewBox="0 0 64 64"><path d="M39 18c2-2 3-5 3-8-3 0-6 2-8 4-2 2-3 5-3 7 3 0 6-1 8-3Zm10 13c0-5 4-8 4-8-2-3-6-5-10-5-4 0-6 2-9 2s-6-2-9-2c-5 0-9 3-12 7-5 9-1 22 3 29 3 3 6 7 10 6 4 0 5-3 9-3s5 3 9 3c4 0 7-4 9-7 3-4 4-8 5-8 0 0-8-3-8-14Z"/></svg><b>IPHONE</b>
+</button>
+</div>
+
+<div class="search"><span>▣</span><input id="phone" value="Nubia Neo 3 GT 5G" placeholder="Ej: Galaxy A15, iPhone 13, Redmi Note 12..."></div>
+<button class="generate" onclick="generate()">✦ &nbsp; GENERAR MIS SENSIBILIDADES &nbsp; →</button>
+<div class="count"><strong>2.538 celulares</strong> en el catálogo · Free Fire y Free Fire MAX</div>
+</section>
+
+<section class="section">
+<div class="section-label">✦ &nbsp; MÁS HERRAMIENTAS</div>
+<h2>ELIGE TU ESTILO DE <em>JUEGO</em></h2>
+<p>Aquí tienes varias sensibilidades para que juegues como más te guste.<br>Cada una está optimizada para un estilo diferente.</p>
+
+<div class="cards">
+<div class="card"><div class="ico">⌾</div><h3>ULTRA HEADSHOT</h3><p>Máxima precisión y puro headshot.</p><button class="view" onclick="showOne(0)">VER SENSIBILIDAD →</button></div>
+<div class="card"><div class="ico">ϟ</div><h3>PVP RÁPIDA</h3><p>Reacciona más rápido en cada enfrentamiento.</p><button class="view" onclick="showOne(1)">VER SENSIBILIDAD →</button></div>
+<div class="card"><div class="ico">🎮</div><h3>EQUILIBRADA</h3><p>Perfecta para todos los modos.</p><button class="view" onclick="showOne(2)">VER SENSIBILIDAD →</button></div>
+<div class="card"><div class="ico">♨</div><h3>TODO TERRENO</h3><p>Funciona en todas las armas y modos.</p><button class="view" onclick="showOne(3)">VER SENSIBILIDAD →</button></div>
+<div class="card"><div class="ico">❄</div><h3>CONTROL SUAVE</h3><p>Más estabilidad y menos retroceso.</p><button class="view" onclick="showOne(4)">VER SENSIBILIDAD →</button></div>
+<div class="card"><div class="ico">⌾</div><h3>PRECISIÓN</h3><p>Apunta mejor, pega más.</p><button class="view" onclick="showOne(5)">VER SENSIBILIDAD →</button></div>
+<div class="card"><div class="ico">✹</div><h3>RÁFAGA</h3><p>Disparos rápidos y letales.</p><button class="view" onclick="showOne(6)">VER SENSIBILIDAD →</button></div>
+<div class="card"><div class="ico">♛</div><h3>OSCAR X BENXIT</h3><p>Configuración personalizada.</p><button class="view" onclick="showOne(7)">VER SENSIBILIDAD →</button></div>
+</div>
+
+<div id="results" class="results"><h2>🔥 Sensibilidades de Oscar x benxit</h2><div id="resultgrid" class="resultgrid"></div></div>
+</section>
+
+<div class="banner"><h2>FREE FIRE</h2><p>JUEGA MEJOR · SÉ DIFERENTE</p></div>
+</div>
+
+<footer><div class="home"><div>⌂</div>INICIO</div></footer>
+
+<script>
+const profiles=[
+["ULTRA HEADSHOT","Máxima precisión",[200,198,194,188,176,185,38]],
+["PVP RÁPIDA","Respuesta rápida",[200,196,190,184,172,182,40]],
+["EQUILIBRADA","Control + precisión",[195,190,184,178,168,175,36]],
+["TODO TERRENO","Todas las armas",[200,194,188,180,170,180,37]],
+["CONTROL SUAVE","Más estabilidad",[188,184,178,172,162,170,35]],
+["PRECISIÓN","Miras largas",[190,186,180,176,165,172,34]],
+["RÁFAGA","SMG + escopeta",[200,199,193,185,170,184,42]],
+["OSCAR X BENXIT","Personalizada",[200,197,192,186,175,180,39]]
+];
+const labels=["General","Punto rojo","Mira 2X","Mira 4X","AWM","Mirada libre","Botón"];
+
+function selectOS(btn){
+ document.querySelectorAll(".platform").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");
+}
+function cardHTML(p){
+ return `<div class="profile"><strong>${p[0]}</strong><span class="tag">${p[1]}</span>
+ <div class="vals">${p[2].map((v,i)=>`<div class="val"><small>${labels[i]}</small><b>${i===6?v+"%":v}</b></div>`).join("")}</div></div>`;
+}
+function generate(){
+ document.getElementById("resultgrid").innerHTML=profiles.map(cardHTML).join("");
+ document.getElementById("results").classList.add("show");
+ document.getElementById("results").scrollIntoView({behavior:"smooth",block:"center"});
+}
+function showOne(i){
+ document.getElementById("resultgrid").innerHTML=cardHTML(profiles[i]);
+ document.getElementById("results").classList.add("show");
+ document.getElementById("results").scrollIntoView({behavior:"smooth",block:"center"});
+}
+</script>
+</body>
+</html>
