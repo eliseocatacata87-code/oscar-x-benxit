@@ -128,13 +128,39 @@ footer{position:fixed;z-index:10;bottom:0;left:50%;transform:translateX(-50%);wi
 
 <div id="results" class="results"><h2>🔥 Sensibilidades de Oscar x benxit</h2><div id="resultgrid" class="resultgrid"></div></div>
 </section>
+<section id="pantallaJuegos" style="display:none;">
+  <h2>🎮 JUEGOS</h2>
+  <p>Selecciona tu juego</p>
 
+  <button>🔥 FREE FIRE</button>
+  <button>⚡ BLOOD STRIKE</button>
+  <button>🎯 PUBG MOBILE</button>
+  <button>⚡ FORTNITE</button>
+</section>
 <div class="banner"><h2>FREE FIRE</h2><p>JUEGA MEJOR · SÉ DIFERENTE</p></div>
 </div>
 
-<footer><div class="home"><div>⌂</div>INICIO</div></footer>
+  <footer>
 
+  <div class="home" onclick="mostrarInicio()">
+    <div>⌂</div>
+    INICIO
+  </div>
+
+  <div class="home" onclick="mostrarJuegos()">
+    <div>🎮</div>
+    JUEGOS
+  </div>
+
+</footer>
 <script>
+
+function mostrarJuegos() {
+  document.getElementById("pantallaJuegos").style.display = "block";
+}
+
+ </script>
+ <script>
 const profiles=[
 ["ULTRA HEADSHOT","Máxima precisión",[200,198,194,188,176,185,38]],
 ["PVP RÁPIDA","Respuesta rápida",[200,196,190,184,172,182,40]],
